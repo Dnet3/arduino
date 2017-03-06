@@ -46,8 +46,8 @@ void setup() {
   pinMode(onBoardLED, OUTPUT);
 
   //setting email address and phone number
-  strcpy(emailAddr,"maciej.szaflarski@mycit.ie");
-  strcpy(telNo, "+353872803770");
+  strcpy(emailAddr,"name.surname@mycit.ie");
+  strcpy(telNo, "+353123456789");
 
   //set sms monitoring
   SMS.setOnSmsReceive(&smsReceived);
