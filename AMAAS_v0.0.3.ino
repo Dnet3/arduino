@@ -90,6 +90,7 @@ void loop() {
 }
 
 void getCoordinates(){
+  /* Use the existing OneSheeld code to get the latitude and longitude co-ordinates from the connected phone. */
   dtostrf(GPS.getLatitude(), 9, 7, lat); 
   dtostrf(GPS.getLongitude(), 9, 7, lon);
   delay(500); 
@@ -186,24 +187,18 @@ boolean sendAlert(){
 
 void sendData(){
     getCoordinates();
+    /* A seperator to be used between data values. */
     char seperator[] = ";;;";
     /* Create a customized String that will contain data to be sent to the LAMM website. */
     String tweetString =  String(arduinoID);
-    /* Use a seperator between data values. */
     tweetString.concat(seperator);
-    /* Use the existing OneSheeld code to get the latitude co-ordinates from the connected phone. */
     tweetString.concat(lat);
-    /* IMPORTANT: Use OneSheeld delay for better performance. */
-    OneSheeld.delay(500);
     tweetString.concat(seperator);
-    /* Use the existing OneSheeld code to get the longitude co-ordinates from the connected phone. */
     tweetString.concat(lon);
-    /* IMPORTANT: Use OneSheeld delay for better performance. */
-    OneSheeld.delay(500);
     tweetString.concat(seperator);
-    /* This part of the String will be used by the existing TwitterShield Android code to send a tweet. */
+    /* This last String will be used by the existing TwitterShield Android code to send a tweet. */
     tweetString.concat("REPLACE THIS TEXT WITH TWEET");
-
+  
     /* Tweet last picture AND/OR run custom 1Sheeld Android code. */
     Twitter.tweetLastPicture(tweetString, 0);
 }
