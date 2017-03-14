@@ -187,17 +187,18 @@ boolean sendAlert(){
 
 void sendData(){
     getCoordinates();
+  
+    char * codeFlag = "1";
     /* A seperator to be used between data values. */
     char seperator[] = ";;;";
     /* Create a customized String that will contain data to be sent to the LAMM website. */
-    String tweetString =  String(arduinoID);
+    String tweetString =  String(codeFlag);
+    tweetString.concat(seperator);
+    tweetString.concat(arduinoID);
     tweetString.concat(seperator);
     tweetString.concat(lat);
     tweetString.concat(seperator);
     tweetString.concat(lon);
-    tweetString.concat(seperator);
-    /* This last String will be used by the existing TwitterShield Android code to send a tweet. */
-    tweetString.concat("REPLACE THIS TEXT WITH TWEET");
   
     /* Tweet last picture AND/OR run custom 1Sheeld Android code. */
     Twitter.tweetLastPicture(tweetString, 0);
