@@ -61,16 +61,17 @@ void setup() {
   digitalWrite(yellowLED, HIGH);
   delay(500);
   digitalWrite(yellowLED, LOW);
-  digitalWrite(greenLED, HIGH); //on when arduino anti-theft monitoring active   
+  digitalWrite(greenLED, HIGH); //on when arduino anti-theft monitoring active 
+  delay(500);
+  digitalWrite(greenLED, LOW);  
 }
 
 void loop() {
 
-
-  //sending data to LAMM website every 5 seconds
+  //sending data to LAMM website every 30 seconds
   currentMillis = millis();
-  if(currentMillis - previousMillis >= 5000) {
-    sendData("1");    //"1" as parameter will upload data to LAMM website, instead of Twitter
+  if(currentMillis - previousMillis >= 30000) {
+    sendData();
     previousMillis = currentMillis;
   }
 
@@ -142,7 +143,7 @@ void smsReceived(char * phoneNumber, char * textMessage){
       }
     } else if(!strcmp(textMessage,"Tweet")){
       //This violates twitter's policy so we are not going to use it
-      //sendData("0");
+      sendData();
     } else if (!strcmp(textMessage,"ShutDown")){
       shutdownVehicle();
     }
@@ -207,21 +208,12 @@ boolean sendAlert(){
   
 }
 
-void sendData(char * codeFlag){
-    // getting real coordinates to send to our website
-    if(!strcmp(codeFlag, "1")){
-      getCoordinates();
-    } 
-    //getting artificial CIT co-ordinates to tweet as I don't want to tweet my house coordinates!
-    else {
-      strcpy(lat, "51.8857210");
-      strcpy(lon, "-8.5343250");
-    }
-    
-    //codeFlag passed in as parameter. "1" to use customized sheeld to send data to LAMM site, or "0" to use standard tweet
-    //char * codeFlag = "1";
+void sendData(){
+   
+    getCoordinates();
     /* A seperator to be used between data values. */
     char seperator[] = ";;;";
+    char * codeFlag = "1";
     /* Create a customized String that will contain data to be sent to the LAMM website. */
     String tweetString =  String(codeFlag);
     tweetString.concat(seperator);
@@ -230,8 +222,8 @@ void sendData(char * codeFlag){
     tweetString.concat(lat);
     tweetString.concat(seperator);
     tweetString.concat(lon);
-    tweetString.concat(seperator);
-    tweetString.concat("Testing OneSheeld");
+    //tweetString.concat(seperator);
+    //tweetString.concat("Testing OneSheeld");
     /* Tweet last picture AND/OR run custom 1Sheeld Android code. */
     Twitter.tweetLastPicture(tweetString, 0);
     digitalWrite(yellowLED, HIGH);
@@ -252,4 +244,3 @@ void shutdownVehicle(){
     }
   
 }
-
