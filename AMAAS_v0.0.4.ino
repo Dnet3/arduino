@@ -68,9 +68,9 @@ void setup() {
 
 void loop() {
 
-  //sending data to LAMM website every 30 seconds
+  //sending data to LAMM website every 60 seconds
   currentMillis = millis();
-  if(currentMillis - previousMillis >= 30000) {
+  if(currentMillis - previousMillis >= 60000) {
     sendData();
     previousMillis = currentMillis;
   }
@@ -141,10 +141,10 @@ void smsReceived(char * phoneNumber, char * textMessage){
         digitalWrite(redLED, LOW);
         digitalWrite(yellowLED, LOW);
       }
-    } else if(!strcmp(textMessage,"Tweet")){
+    } else if(!strcmp(textMessage,"tweet")){
       //This violates twitter's policy so we are not going to use it
       sendData();
-    } else if (!strcmp(textMessage,"ShutDown")){
+    } else if (!strcmp(textMessage,"shutdown")){
       shutdownVehicle();
     }
     else{
